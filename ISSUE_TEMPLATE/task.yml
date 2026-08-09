@@ -1,0 +1,27 @@
+name: Task
+description: Track an AdvancerSoft engineering task.
+title: "[Task]: "
+labels:
+  - task
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: Concrete outcome expected from this task.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Files, repositories, services, and forbidden areas.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation
+      description: Checks required before merge.
+    validations:
+      required: true

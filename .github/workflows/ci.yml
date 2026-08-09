@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  repository-policy:
+    name: Repository policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify no committed secrets placeholder
+        run: |
+          if grep -RInE '(password|secret|token|api[_-]?key)\s*[:=]\s*[^<{$]' . \
+            --exclude-dir=.git \
+            --exclude='*.md'; then
+            echo "Potential committed secret found."
+            exit 1
+          fi
