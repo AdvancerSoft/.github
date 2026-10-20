@@ -1,0 +1,41 @@
+{
+  "steps": [
+    {
+      "name": "verify-no-committed-secrets-placeholder",
+      "command": [
+        "bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "if grep -RInE '(password|secret|token|api[_-]?key)\\s*[:=]\\s*[^<{$]' . \\\n  --exclude-dir=.git \\\n  --exclude='*.md'; then\n  echo \"Potential committed secret found.\"\n  exit 1\nfi\n"
+      ]
+    },
+    {
+      "name": "validation-tests",
+      "command": [
+        "bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "python3 -m unittest discover -s tests -p test_local_validation.py -v"
+      ]
+    },
+    {
+      "name": "release-script-syntax",
+      "command": [
+        "bash",
+        "-euo",
+        "pipefail",
+        "-c",
+        "find scripts -type f -name '*.sh' -print0 | xargs -0 bash -n"
+      ]
+    }
+  ],
+  "migratedWorkflowSteps": [
+    {
+      "job": "repository-policy",
+      "name": "Verify no committed secrets placeholder",
+      "originalCommandSha256": "4f6e1d9d59cef431139f0d183fbef6f6251e966ad1d064f272b5e4fac6151888"
+    }
+  ]
+}
